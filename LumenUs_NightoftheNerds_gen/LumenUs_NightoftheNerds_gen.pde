@@ -1,4 +1,6 @@
+import AULib.*;
 import spout.*;
+
 
 int numTripods = 4;
 int numTubes = numTripods * 3;
@@ -19,7 +21,7 @@ Spout spout;
 
 void setup() {
   size(1600, 880, OPENGL);
-  frameRate(60);
+  frameRate(45);
   background(0);
   noStroke();
   noSmooth();
