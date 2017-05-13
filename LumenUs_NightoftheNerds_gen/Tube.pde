@@ -25,47 +25,17 @@ class Tube {
   //Event when tube is touched
 
   void isTouched(int touchLocation) {
-    if (touchLocation == 0 && effectSide0 == false) {
-      blocks.add(new Block(tubeModulus, tripodNumber, 0));
 
-      effectSide0 = true;
-    }
-
-    if (touchLocation == 1 && effectSide1 == false) {
-      blocks.add(new Block(tubeModulus, tripodNumber, 1));
-
-      effectSide1 = true;
-    }
   }
 
   //Event when tube is released
 
   void isUnTouched(int touchLocation) {
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
 
-      if (block.touchLocation == touchLocation) {
-        blocks.remove(i);
-
-        if (touchLocation == 0) {
-          effectSide0 = false;
-        }
-        if (touchLocation == 1) {
-          effectSide1 = false;
-        }
-      }
-    }
   }
 
   // Executed every frame, for updating continiously things
   void update() {
-
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
-
-      block.display();
-    }
-
     for (int i = glittereffect.size() - 1; i >= 0; i--) {
       GlitterEffect glitterEffect = glittereffect.get(i);
 
@@ -77,6 +47,9 @@ class Tube {
 
       if (glitterEffect.animationFinished()) {
         glittereffect.remove(i);
+        
+        effectSide0 = false;
+        effectSide1 = false;
       }
     }
   }
@@ -93,9 +66,14 @@ class Tube {
       println("random effect: " + EffectsAvailable[effectNumberRandom] + " chosen");
     }
 
+    // The number of effectNumberRandom is the number of the position of the effect in the array effectsAvailable
     if ((effectNumberRandom == 0) || (!randomEffectChosen && Effect.equals("glitter"))) {
       println("GlitterEffect summoned");
       glittereffect.add(new GlitterEffect(this.tripodNumber, this.tubeModulus));
+
+      //To indicate that something is running in tube, we don't want to effects overlying eachother, set to false when removing effect
+      effectSide0 = true;
+      effectSide1 = true;
     }
   }
 }
