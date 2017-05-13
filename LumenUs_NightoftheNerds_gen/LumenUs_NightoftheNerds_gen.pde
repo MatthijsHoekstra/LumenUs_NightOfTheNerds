@@ -17,6 +17,7 @@ ArrayList<RainBowEffectCompleteInstallation> rainboweffectinstallation = new Arr
 // ----------
 
 
+
 int numTripods = 4;
 int numTubes = numTripods * 3;
 int numLEDsPerTube = 56;
@@ -32,13 +33,15 @@ int selectedTube, tubeNumber;
 
 Tube[] tubes = new Tube[numTubes];
 
+StandardMovementInput standardMovementInput = new StandardMovementInput();
+
 Spout spout;
 
 ControlP5 cp5;
 
 void setup() {
   size(1600, 880, OPENGL);
-  frameRate(60);
+  frameRate(45);
   background(0);
   noStroke();
   noSmooth();
@@ -107,6 +110,9 @@ void draw() {
   }
 
   spout.sendTexture();
+  
+  standardMovementInput.update();
+  
 }
 
 void keyPressed() {

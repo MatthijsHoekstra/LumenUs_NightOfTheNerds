@@ -9,6 +9,16 @@ class Tube {
   private int tubeNumber;
   private int tubeModulus;
   private int tripodNumber;
+  private int startTime;
+
+  float x_input;
+  float width_input;
+  int speed_input;
+  int begin_input = 0;
+  int end_input = 1;
+  int inputAnimationTime = 3000;
+  boolean isFull = false;
+  boolean isSynchronously = true;
 
   ArrayList<Block> blocks = new ArrayList<Block>();
   ArrayList<GlitterEffect> glittereffect = new ArrayList<GlitterEffect>();
@@ -20,26 +30,32 @@ class Tube {
     this.tubeNumber = tubeNumber; //0 - numTubes
     this.tubeModulus = tubeNumber % 3; // 0, 1, 2
     this.tripodNumber = tubeNumber / 3; //0 - numTubes / 3
+
+    startTime = millis();
+    speed_input = inputAnimationTime;
   }
 
   //Event when tube is touched
-
-  void isTouched(int touchLocation) {
-
-  }
-
-  //Event when tube is released
-
+  
   void isUnTouched(int touchLocation) {
-
+    if (touchLocation == 0) {
+      effectSide0 = false;
+    }
+    if (touchLocation == 1) {
+      effectSide1 = false;
+    }
   }
+
 
   // Executed every frame, for updating continiously things
   void update() {
+    input_update();
+  
     for (int i = glittereffect.size() - 1; i >= 0; i--) {
       GlitterEffect glitterEffect = glittereffect.get(i);
-
+      
       glitterEffect.update();
+
 
       if (!glitterEffect.timeFinished()) {
         glitterEffect.generate();
@@ -75,5 +91,62 @@ class Tube {
       effectSide0 = true;
       effectSide1 = true;
     }
+  }
+
+  void input_update() {
+    float intervalue2 = map(speed_input, inputAnimationTime, 0, 0, 1);
+    float intervalue3 = AULib.ease(AULib.EASE_IN_CUBIC, intervalue2);
+    width_input = map(intervalue3, 0, 1, rectWidth*4, tubeLength);
+
+    float currentTime = map(millis(), startTime, startTime + speed_input, begin_input, end_input);
+    float intervalue1 = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
+    x_input = map(intervalue1, 0, 1, 0, tubeLength-width_input/4);
+
+    if (intervalue1 >= 1) {
+      startTime = millis();
+      begin_input = 1;
+      end_input = 0;
+    }
+
+    if (intervalue1 <= 0) {
+      startTime = millis();
+      begin_input = 0;
+      end_input = 1;
+    }
+
+    if (speed_input <= 0) {
+      speed_input = inputAnimationTime;
+      isFull = true;
+    } else if ((effectSide0 == false && effectSide1 == false) && (speed_input < inputAnimationTime+40) && isSynchronously==false) {
+      speed_input+= 10;
+    } else if ((effectSide0 == false && effectSide1 == false) && speed_input >= inputAnimationTime + 40 && isSynchronously==false) {
+      if (x_input <= standardMovementInput.x_input+1 && x_input >= standardMovementInput.x_input && begin_input == standardMovementInput.begin_input) {
+        speed_input = inputAnimationTime;
+        x_input = standardMovementInput.x_input;
+        isSynchronously = true;
+      }
+    }
+
+    if (effectSide0 == true || effectSide1 == true) {
+      speed_input -= 20;
+      isSynchronously = false;
+    }
+
+    pushMatrix();
+    translate(this.tubeModulus * (numLEDsPerTube * rectWidth) + (this.tubeModulus * 20 + 20), this.tripodNumber * 21 + 21);
+    pushStyle();
+
+    fill(255);
+    rect(x_input, 0, width_input/4, rectHeight);
+
+    if (isFull == true) {
+      fill(255);
+      rect(0, 0, tubeLength, rectHeight);
+    }
+
+    popStyle();
+    popMatrix();
+
+    println(speed_input, isSynchronously, x_input);
   }
 }
