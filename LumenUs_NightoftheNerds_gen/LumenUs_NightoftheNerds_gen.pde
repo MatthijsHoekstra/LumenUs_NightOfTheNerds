@@ -1,6 +1,6 @@
 import spout.*;
 
-int numTripods = 24;
+int numTripods = 4;
 int numTubes = numTripods * 3;
 int numLEDsPerTube = 56;
 
