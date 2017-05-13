@@ -21,6 +21,7 @@ class Tube {
   boolean isSynchronously = true;
 
   ArrayList<Block> blocks = new ArrayList<Block>();
+  ArrayList<GlitterEffect> glittereffect = new ArrayList<GlitterEffect>();
 
   boolean effectSide0 = false;
   boolean effectSide1 = false;
@@ -35,23 +36,7 @@ class Tube {
   }
 
   //Event when tube is touched
-
-  void isTouched(int touchLocation) {
-    if (touchLocation == 0 && effectSide0 == false) {
-      //blocks.add(new Block(tubeModulus, tripodNumber, 0));
-
-      effectSide0 = true;
-    }
-
-    if (touchLocation == 1 && effectSide1 == false) {
-      //blocks.add(new Block(tubeModulus, tripodNumber, 1));
-
-      effectSide1 = true;
-    }
-  }
-
-  //Event when tube is released
-
+  
   void isUnTouched(int touchLocation) {
     if (touchLocation == 0) {
       effectSide0 = false;
@@ -64,13 +49,47 @@ class Tube {
 
   // Executed every frame, for updating continiously things
   void update() {
-
     input_update();
+  
+    for (int i = glittereffect.size() - 1; i >= 0; i--) {
+      GlitterEffect glitterEffect = glittereffect.get(i);
+      
+      glitterEffect.update();
 
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
 
-      block.display();
+      if (!glitterEffect.timeFinished()) {
+        glitterEffect.generate();
+      }
+
+      if (glitterEffect.animationFinished()) {
+        glittereffect.remove(i);
+        
+        effectSide0 = false;
+        effectSide1 = false;
+      }
+    }
+  }
+
+  void summon(String Effect) {
+
+    int effectNumberRandom = -1;
+    boolean randomEffectChosen = false;
+
+    if (Effect.equals("random") == true) {
+      effectNumberRandom = AULib.chooseOneWeighted(effectNumberArray, EffectsWeights);
+      randomEffectChosen = true;
+
+      println("random effect: " + EffectsAvailable[effectNumberRandom] + " chosen");
+    }
+
+    // The number of effectNumberRandom is the number of the position of the effect in the array effectsAvailable
+    if ((effectNumberRandom == 0) || (!randomEffectChosen && Effect.equals("glitter"))) {
+      println("GlitterEffect summoned");
+      glittereffect.add(new GlitterEffect(this.tripodNumber, this.tubeModulus));
+
+      //To indicate that something is running in tube, we don't want to effects overlying eachother, set to false when removing effect
+      effectSide0 = true;
+      effectSide1 = true;
     }
   }
 

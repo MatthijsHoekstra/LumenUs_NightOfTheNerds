@@ -75,3 +75,48 @@ void selectingSystem() {
   popStyle();
   popMatrix();
 }
+
+void addButtons() {
+
+  cp5 = new ControlP5(this);
+
+  cp5.addBang("startTimerELM")
+    .setPosition(100, height-150)
+    .setSize(450, 50);
+}
+
+void startTimerELM() {
+  startTimeTimer = millis();
+  startTimer = true;
+}
+
+int startTimeTimer;
+boolean startTimer = false;
+
+//14.5 minutes 
+
+int durationTimer = 862000;
+
+int minutes = 0;
+
+void timerELM() {
+  if (startTimer) {
+    String timerToDisplay;
+
+    int currentSeconds = ((millis() - startTimeTimer) / 1000)-(60*minutes);
+
+    if (currentSeconds == 60) {
+      minutes ++;
+    }
+
+    timerToDisplay = minutes + " : " + currentSeconds;
+
+    pushStyle();
+    fill(255);
+    textSize(18);
+    text("Current time timer: " + timerToDisplay, 100, height-200);
+    popStyle();
+  } else {
+    minutes = 0;
+  }
+}
