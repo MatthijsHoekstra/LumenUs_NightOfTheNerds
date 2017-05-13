@@ -1,10 +1,12 @@
 import AULib.*;
 import spout.*;
+import controlP5.*;
+
 
 // ----------
 
 String[] EffectsAvailable = {"Glitter", "Explosion"};
-float[] EffectsWeights =      {5, 1};
+float[] EffectsWeights =    {5, 1};
 
 int numberEffectsAvailable = EffectsAvailable.length;
 
@@ -29,6 +31,8 @@ int selectedTube, tubeNumber;
 Tube[] tubes = new Tube[numTubes];
 
 Spout spout;
+
+ControlP5 cp5;
 
 void setup() {
   size(1600, 880, OPENGL);
@@ -60,6 +64,8 @@ void setup() {
 
 
   spout = new Spout(this);
+  
+  addButtons();
 
   //Get array of numbers of Effects
   for (int i = 0; i < numberEffectsAvailable; i++) {
@@ -87,7 +93,6 @@ void draw() {
 void keyPressed() {
 
   int tubeNumber = currentSelectedTube + currentSelectedTripod * 3;
-
 
   //Selecting system for adding objects
   if (key == CODED) {

@@ -65,13 +65,43 @@ void selectingSystem() {
   //Create rectangle for indicating which tube / tripod is selected
   pushMatrix();
   translate(currentSelectedTube * (numLEDsPerTube * rectWidth) + (currentSelectedTube * 20 + 20), currentSelectedTripod * 21 + 21); 
-  
+
   pushStyle();
   noFill();
-  
+
   stroke(0, 255, 0);
   rect(x-5, y-5, tubeLength+8, rectHeight+9);
 
   popStyle();
   popMatrix();
+}
+
+void addButtons() {
+
+  cp5 = new ControlP5(this);
+
+  cp5.addBang("startTimerELM")
+    .setPosition(100, height-150)
+    .setSize(450, 50);
+}
+
+void startTimerELM() {
+  startTimeTimer = millis();
+  startTimer = true;
+}
+
+int startTimeTimer;
+boolean startTimer = false;
+
+//14.5 minutes 
+
+int durationTimer = 870000;
+
+void timerELM() {
+  
+  pushStyle();
+  fill(255);
+  text(millis() - startTimeTimer, 100, height-250);
+  popStyle();
+  
 }
