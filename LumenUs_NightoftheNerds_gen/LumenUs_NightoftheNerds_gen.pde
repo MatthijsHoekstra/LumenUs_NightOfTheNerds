@@ -12,6 +12,8 @@ int numberEffectsAvailable = EffectsAvailable.length;
 
 int[] effectNumberArray = new int[EffectsAvailable.length];
 
+ArrayList<RainBowEffectCompleteInstallation> rainboweffectinstallation = new ArrayList<RainBowEffectCompleteInstallation>();
+
 // ----------
 
 
@@ -64,7 +66,7 @@ void setup() {
 
 
   spout = new Spout(this);
-  
+
   addButtons();
 
   //Get array of numbers of Effects
@@ -87,12 +89,29 @@ void draw() {
 
   drawRaster();
 
+  timerELM();
+
+  for (int i = 0; i < rainboweffectinstallation.size(); i++) {
+    RainBowEffectCompleteInstallation effectsCompleteInstallation = rainboweffectinstallation.get(i);  
+
+    effectsCompleteInstallation.display();
+
+    if (effectsCompleteInstallation.finishedEffect && !effectsCompleteInstallation.eventPassed) {      
+
+      effectsCompleteInstallation.eventPassed = true;
+
+      if (effectsCompleteInstallation.id < colorArray.length - 1) {
+        rainboweffectinstallation.add(new RainBowEffectCompleteInstallation(effectsCompleteInstallation.id+1));
+      }
+    }
+  }
+
   spout.sendTexture();
 }
 
 void keyPressed() {
 
-  int tubeNumber = currentSelectedTube + currentSelectedTripod * 3;
+  int tubeNumber = currentSelectedTube + currentSelectedTripod * 3; 
 
   //Selecting system for adding objects
   if (key == CODED) {
@@ -112,14 +131,14 @@ void keyPressed() {
 
   if (key == '9') {
     for (int i=0; i<numTubes; i++) {
-      tubes[i].isTouched(0);
+      tubes[i].isTouched(0); 
       tubes[i].isTouched(1);
     }
   }
 
   if (key == '0') {
     for (int i=0; i<numTubes; i++) {
-      tubes[i].isUnTouched(0);
+      tubes[i].isUnTouched(0); 
       tubes[i].isUnTouched(1);
     }
   }
@@ -135,12 +154,16 @@ void keyPressed() {
   if (key == 'q') {
     tubes[tubeNumber].summon("random");
   }
+
+  if (key == 'w') {
+    rainboweffectinstallation.add(new RainBowEffectCompleteInstallation(0));
+  }
 }
 
 //Simulating the sensor input 0 - released
 
 void keyReleased() {
-  int tubeNumber = currentSelectedTube + currentSelectedTripod * 3;
+  int tubeNumber = currentSelectedTube + currentSelectedTripod * 3; 
 
   if (key == '1') {
     tubes[tubeNumber].isUnTouched(0);

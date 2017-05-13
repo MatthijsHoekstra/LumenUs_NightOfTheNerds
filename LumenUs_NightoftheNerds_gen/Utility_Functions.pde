@@ -95,13 +95,28 @@ boolean startTimer = false;
 
 //14.5 minutes 
 
-int durationTimer = 870000;
+int durationTimer = 862000;
+
+int minutes = 0;
 
 void timerELM() {
-  
-  pushStyle();
-  fill(255);
-  text(millis() - startTimeTimer, 100, height-250);
-  popStyle();
-  
+  if (startTimer) {
+    String timerToDisplay;
+
+    int currentSeconds = ((millis() - startTimeTimer) / 1000)-(60*minutes);
+
+    if (currentSeconds == 60) {
+      minutes ++;
+    }
+
+    timerToDisplay = minutes + " : " + currentSeconds;
+
+    pushStyle();
+    fill(255);
+    textSize(18);
+    text("Current time timer: " + timerToDisplay, 100, height-200);
+    popStyle();
+  } else {
+    minutes = 0;
+  }
 }
