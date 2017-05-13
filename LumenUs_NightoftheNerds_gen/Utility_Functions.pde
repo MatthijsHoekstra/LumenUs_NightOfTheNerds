@@ -65,10 +65,10 @@ void selectingSystem() {
   //Create rectangle for indicating which tube / tripod is selected
   pushMatrix();
   translate(currentSelectedTube * (numLEDsPerTube * rectWidth) + (currentSelectedTube * 20 + 20), currentSelectedTripod * 21 + 21); 
-  
+
   pushStyle();
   noFill();
-  
+
   stroke(0, 255, 0);
   rect(x-5, y-5, tubeLength+8, rectHeight+9);
 

@@ -13,9 +13,12 @@ class Tube {
 
   float x_input;
   float width_input;
-  int speed_input = 2000;
+  int speed_input;
   int begin_input = 0;
   int end_input = 1;
+  int inputAnimationTime = 3000;
+  boolean isFull = false;
+  boolean isSynchronously = true;
 
   ArrayList<Block> blocks = new ArrayList<Block>();
 
@@ -28,6 +31,7 @@ class Tube {
     this.tripodNumber = tubeNumber / 3; //0 - numTubes / 3
 
     startTime = millis();
+    speed_input = inputAnimationTime;
   }
 
   //Event when tube is touched
@@ -49,21 +53,14 @@ class Tube {
   //Event when tube is released
 
   void isUnTouched(int touchLocation) {
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
-
-      if (block.touchLocation == touchLocation) {
-        blocks.remove(i);
-
-        if (touchLocation == 0) {
-          effectSide0 = false;
-        }
-        if (touchLocation == 1) {
-          effectSide1 = false;
-        }
-      }
+    if (touchLocation == 0) {
+      effectSide0 = false;
+    }
+    if (touchLocation == 1) {
+      effectSide1 = false;
     }
   }
+
 
   // Executed every frame, for updating continiously things
   void update() {
@@ -78,13 +75,13 @@ class Tube {
   }
 
   void input_update() {
-    float intervalue2 = map(speed_input, 2000, 0, 0, 1);
+    float intervalue2 = map(speed_input, inputAnimationTime, 0, 0, 1);
     float intervalue3 = AULib.ease(AULib.EASE_IN_CUBIC, intervalue2);
-    width_input = map(intervalue3, 0, 1, rectWidth, tubeLength);
+    width_input = map(intervalue3, 0, 1, rectWidth*4, tubeLength);
 
     float currentTime = map(millis(), startTime, startTime + speed_input, begin_input, end_input);
     float intervalue1 = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
-    x_input = map(intervalue1, 0, 1, 0, tubeLength-width_input);
+    x_input = map(intervalue1, 0, 1, 0, tubeLength-width_input/4);
 
     if (intervalue1 >= 1) {
       startTime = millis();
@@ -98,12 +95,22 @@ class Tube {
       end_input = 1;
     }
 
-    if (effectSide0 == true || effectSide1 == true) {
-      speed_input -= 10;
+    if (speed_input <= 0) {
+      speed_input = inputAnimationTime;
+      isFull = true;
+    } else if ((effectSide0 == false && effectSide1 == false) && (speed_input < inputAnimationTime+40) && isSynchronously==false) {
+      speed_input+= 10;
+    } else if ((effectSide0 == false && effectSide1 == false) && speed_input >= inputAnimationTime + 40 && isSynchronously==false) {
+      if (x_input <= standardMovementInput.x_input+1 && x_input >= standardMovementInput.x_input && begin_input == standardMovementInput.begin_input) {
+        speed_input = inputAnimationTime;
+        x_input = standardMovementInput.x_input;
+        isSynchronously = true;
+      }
     }
 
-    if (speed_input <= 0) {
-      speed_input = 0;
+    if (effectSide0 == true || effectSide1 == true) {
+      speed_input -= 20;
+      isSynchronously = false;
     }
 
     pushMatrix();
@@ -111,9 +118,16 @@ class Tube {
     pushStyle();
 
     fill(255);
-    rect(x_input, 0, width_input, rectHeight);
+    rect(x_input, 0, width_input/4, rectHeight);
+
+    if (isFull == true) {
+      fill(255);
+      rect(0, 0, tubeLength, rectHeight);
+    }
 
     popStyle();
     popMatrix();
+
+    println(speed_input, isSynchronously, x_input);
   }
 }

@@ -17,6 +17,8 @@ int selectedTube, tubeNumber;
 
 Tube[] tubes = new Tube[numTubes];
 
+StandardMovementInput standardMovementInput = new StandardMovementInput();
+
 Spout spout;
 
 void setup() {
@@ -66,6 +68,9 @@ void draw() {
   drawRaster();
 
   spout.sendTexture();
+  
+  standardMovementInput.update();
+  
 }
 
 void keyPressed() {
