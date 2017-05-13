@@ -1,4 +1,17 @@
+import AULib.*;
 import spout.*;
+
+// ----------
+
+String[] EffectsAvailable = {"Glitter", "Explosion"};
+float[] EffectsWeights =      {5, 1};
+
+int numberEffectsAvailable = EffectsAvailable.length;
+
+int[] effectNumberArray = new int[EffectsAvailable.length];
+
+// ----------
+
 
 int numTripods = 4;
 int numTubes = numTripods * 3;
@@ -47,6 +60,11 @@ void setup() {
 
 
   spout = new Spout(this);
+
+  //Get array of numbers of Effects
+  for (int i = 0; i < numberEffectsAvailable; i++) {
+    effectNumberArray[i] = i;
+  }
 }
 
 void draw() {
@@ -107,6 +125,10 @@ void keyPressed() {
 
   if (key == '2') {
     tubes[tubeNumber].isTouched(1);
+  }
+
+  if (key == 'q') {
+    tubes[tubeNumber].summon("random");
   }
 }
 

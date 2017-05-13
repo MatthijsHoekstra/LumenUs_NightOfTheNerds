@@ -11,6 +11,7 @@ class Tube {
   private int tripodNumber;
 
   ArrayList<Block> blocks = new ArrayList<Block>();
+  ArrayList<GlitterEffect> glittereffect = new ArrayList<GlitterEffect>();
 
   boolean effectSide0 = false;
   boolean effectSide1 = false;
@@ -63,6 +64,23 @@ class Tube {
       Block block = blocks.get(i);
 
       block.display();
+    }
+  }
+
+  void summon(String Effect) {
+    
+    int effectNumberRandom = -1;
+    boolean randomEffectChosen = false;
+
+    if (Effect.equals("random") == true) {
+      effectNumberRandom = AULib.chooseOneWeighted(effectNumberArray,  EffectsWeights);
+      randomEffectChosen = true;
+      
+      println("random effect: " + EffectsAvailable[effectNumberRandom] + " chosen");
+    }
+    
+    if ((Effect.equals(EffectsAvailable[effectNumberRandom]) == true) || (!randomEffectChosen && Effect.equals("glitter"))){
+      glittereffect.add(new GlitterEffect(this.tripodNumber, this.tubeModulus));
     }
   }
 }
