@@ -65,21 +65,36 @@ class Tube {
 
       block.display();
     }
+
+    for (int i = glittereffect.size() - 1; i >= 0; i--) {
+      GlitterEffect glitterEffect = glittereffect.get(i);
+
+      glitterEffect.update();
+
+      if (!glitterEffect.timeFinished()) {
+        glitterEffect.generate();
+      }
+
+      if (glitterEffect.animationFinished()) {
+        glittereffect.remove(i);
+      }
+    }
   }
 
   void summon(String Effect) {
-    
+
     int effectNumberRandom = -1;
     boolean randomEffectChosen = false;
 
     if (Effect.equals("random") == true) {
-      effectNumberRandom = AULib.chooseOneWeighted(effectNumberArray,  EffectsWeights);
+      effectNumberRandom = AULib.chooseOneWeighted(effectNumberArray, EffectsWeights);
       randomEffectChosen = true;
-      
+
       println("random effect: " + EffectsAvailable[effectNumberRandom] + " chosen");
     }
-    
-    if ((Effect.equals(EffectsAvailable[effectNumberRandom]) == true) || (!randomEffectChosen && Effect.equals("glitter"))){
+
+    if ((effectNumberRandom == 0) || (!randomEffectChosen && Effect.equals("glitter"))) {
+      println("GlitterEffect summoned");
       glittereffect.add(new GlitterEffect(this.tripodNumber, this.tubeModulus));
     }
   }

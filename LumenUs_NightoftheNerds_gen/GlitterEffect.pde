@@ -5,7 +5,7 @@ class GlitterEffect {
   ArrayList<Glitter> glitters = new ArrayList<Glitter>();
 
   int numberOfGlitters = 75;
-  
+
   private int startTime, livingTime;
 
   GlitterEffect(int tripodNumber, int tubeModulus) {
@@ -14,6 +14,8 @@ class GlitterEffect {
 
     startTime = millis();
     livingTime = 3000;
+
+    println("GlitterEffect created");
   }
 
   void update() {
@@ -43,6 +45,7 @@ class GlitterEffect {
 
   boolean animationFinished() {
     if (glitters.size() == 0) {
+      println("GlitterEffect removed");
       return true;
     } else {
       return false;
@@ -61,7 +64,7 @@ class Glitter {
   int fadeInTime;
 
   color randomColor;
-  
+
   int currentTime = 20;
 
   Glitter(int tubeModulus, int tripodNumber, float x) {
@@ -71,12 +74,12 @@ class Glitter {
     this.x = x;
 
     startTime = millis();
-    
+
     livingTime = int(random(100, 900));
 
     randomColor = color(random(0, 255), random(0, 255), random(0, 255));
 
-    fadeInTime = int(random(350,500));
+    fadeInTime = int(random(350, 500));
   }
 
   void update() {
@@ -85,14 +88,13 @@ class Glitter {
     pushStyle();
 
     if (millis() < startTime + fadeInTime) {
-      
+
       float currentTime = map(millis(), startTime, startTime + fadeInTime, 0, 1);
       float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
       float opacity = map(interValue, 0, 1, 0, 255);
 
       fill(randomColor, constrain(opacity, 0, 255));
       rect(x, 0, rectWidth, rectHeight);
-      
     } else {
 
       float currentTime = map(millis(), startTime + fadeInTime, startTime + livingTime + fadeInTime, 0, 1);
@@ -102,7 +104,7 @@ class Glitter {
       fill(randomColor, constrain(opacity, 0, 255));
       rect(x, 0, rectWidth, rectHeight);
     }
-    
+
     currentTime = 10;
     popStyle();
     popMatrix();
