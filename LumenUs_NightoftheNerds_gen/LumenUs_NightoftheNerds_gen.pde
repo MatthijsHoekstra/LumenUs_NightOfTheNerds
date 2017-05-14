@@ -41,6 +41,7 @@ ControlP5 cp5;
 
 void setup() {
   size(1600, 880, OPENGL);
+
   frameRate(45);
   background(0);
   noStroke();
@@ -107,12 +108,17 @@ void draw() {
         rainboweffectinstallation.add(new RainBowEffectCompleteInstallation(effectsCompleteInstallation.id+1));
       }
     }
+
+    if (effectsCompleteInstallation.fadeOut) {
+      if (effectsCompleteInstallation.finished()) {
+        rainboweffectinstallation.remove(i);
+      }
+    }
   }
 
   spout.sendTexture();
-  
+
   standardMovementInput.update();
-  
 }
 
 void keyPressed() {

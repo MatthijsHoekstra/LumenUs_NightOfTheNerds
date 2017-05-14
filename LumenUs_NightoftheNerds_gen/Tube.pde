@@ -156,6 +156,6 @@ class Tube {
     popStyle();
     popMatrix();
 
-    println(speed_input, isSynchronously, x_input);
+    //println(speed_input, isSynchronously, x_input);
   }
 }

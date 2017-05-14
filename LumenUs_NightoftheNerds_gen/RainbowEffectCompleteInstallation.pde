@@ -13,6 +13,10 @@ class RainBowEffectCompleteInstallation {
 
   boolean finishedEffect = false;
   boolean eventPassed = false;
+  boolean fadeOut = false;
+
+  int opacity = 255;
+  int startFadeOut;
 
   int id;
 
@@ -24,7 +28,7 @@ class RainBowEffectCompleteInstallation {
 
     rectColor = colorArray[this.id];
 
-    durationAnimation = 10000 / colorArray.length;
+    durationAnimation = 15000 / colorArray.length;
 
     totalLengthRect = (tubeLength*4) - (this.id*lengthOneRect);
 
@@ -49,13 +53,13 @@ class RainBowEffectCompleteInstallation {
       pushStyle();
       translate(tubeModulus * (numLEDsPerTube * rectWidth) + (tubeModulus * 20 + 20), tripodNumber * 21 + 21);
 
-      fill(rectColor);
+      fill(rectColor, opacity);
       rect(0, 0, constrain(currentLengthRect, 0, tubeLength), rectHeight);
 
       popStyle();
       popMatrix();
     }
-    
+
     tubeModulus = 0;
 
 
@@ -74,7 +78,7 @@ class RainBowEffectCompleteInstallation {
         pushStyle();
         translate(tubeModulus * (numLEDsPerTube * rectWidth) + (tubeModulus * 20 + 20), tripodNumber * 21 + 21);
 
-        fill(rectColor);
+        fill(rectColor, opacity);
         rect(0, 0, constrain(currentLengthRect - (tubeLength*1), 0, tubeLength), rectHeight);
 
         popStyle();
@@ -98,7 +102,7 @@ class RainBowEffectCompleteInstallation {
         pushStyle();
         translate(tubeModulus * (numLEDsPerTube * rectWidth) + (tubeModulus * 20 + 20), tripodNumber * 21 + 21);
 
-        fill(rectColor);
+        fill(rectColor, opacity);
         rect(0, 0, constrain(currentLengthRect - (tubeLength*2), 0, tubeLength), rectHeight);
 
         popStyle();
@@ -120,7 +124,7 @@ class RainBowEffectCompleteInstallation {
         pushStyle();
         translate(tubeModulus * (numLEDsPerTube * rectWidth) + (tubeModulus * 20 + 20), tripodNumber * 21 + 21);
 
-        fill(rectColor);
+        fill(rectColor, opacity);
         rect(0, 0, constrain(currentLengthRect - (tubeLength*3), 0, tubeLength), rectHeight);
 
         popStyle();
@@ -129,9 +133,27 @@ class RainBowEffectCompleteInstallation {
       tubeModulus = 0;
     }
 
-    if (currentLengthRect >= totalLengthRect && !eventPassed) {
+    if (currentLengthRect >= totalLengthRect - ((colorArray.length*75)-(this.id*50)) && !eventPassed) {
       println("effectFinished rainbowcompleteinstallation" + id);
       finishedEffect = true;
     }
+  }
+
+  boolean finished() {
+    float currentTime = map(millis(), startTimeTimer, startTimeTimer + 2000, 0, 1);
+    float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
+
+    opacity = int(map(interValue, 0, 1, 255, 0));
+
+    if (opacity <= 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void doFadeOut() {
+    startFadeOut = millis();
+    fadeOut = true;
   }
 }
