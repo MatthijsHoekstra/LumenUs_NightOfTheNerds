@@ -35,8 +35,17 @@ class Tube {
     speed_input = inputAnimationTime;
   }
 
+  void isTouched(int touchLocation) {
+    if (touchLocation == 0) {
+      effectSide0 = true;
+    }
+    if (touchLocation == 1) {
+      effectSide1 = true;
+    }
+  }
+
   //Event when tube is touched
-  
+
   void isUnTouched(int touchLocation) {
     if (touchLocation == 0) {
       effectSide0 = false;
@@ -50,10 +59,10 @@ class Tube {
   // Executed every frame, for updating continiously things
   void update() {
     input_update();
-  
+
     for (int i = glittereffect.size() - 1; i >= 0; i--) {
       GlitterEffect glitterEffect = glittereffect.get(i);
-      
+
       glitterEffect.update();
 
 
@@ -63,7 +72,7 @@ class Tube {
 
       if (glitterEffect.animationFinished()) {
         glittereffect.remove(i);
-        
+
         effectSide0 = false;
         effectSide1 = false;
       }
@@ -128,7 +137,7 @@ class Tube {
     }
 
     if (effectSide0 == true || effectSide1 == true) {
-      speed_input -= 20;
+      speed_input -= 20 ;
       isSynchronously = false;
     }
 
