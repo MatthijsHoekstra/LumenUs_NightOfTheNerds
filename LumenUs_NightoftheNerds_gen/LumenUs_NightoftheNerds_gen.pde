@@ -40,9 +40,9 @@ Spout spout;
 ControlP5 cp5;
 
 void setup() {
-  size(1600, 880, OPENGL);
+  size(1600, 300, OPENGL);
 
-  frameRate(45);
+  frameRate(80);
   background(0);
   noStroke();
   noSmooth();
@@ -55,18 +55,18 @@ void setup() {
 
   // Setup MQTT
 
-  //client = new MQTTClient(this);
-  //client.connect("mqtt://10.0.0.1", "processing");
-  ////client.subscribe("tripods/" + 0 + "/tube/" + 0 + "/side/" + 0);
+  client = new MQTTClient(this);
+  client.connect("mqtt://10.0.0.1", "processing");
+  //client.subscribe("tripods/" + 0 + "/tube/" + 0 + "/side/" + 0);
 
-  //for (int i = 0; i < numTripods; i++) {
-  //  for (int j = 0; j < 3; j++) {
-  //    for (int k = 0; k < 2; k++) {
-  //      //println(
-  //      client.subscribe("tripods/" + i + "/tube/" + j + "/side/" + k);
-  //    }
-  //  }
-  //}
+  for (int i = 0; i < numTripods; i++) {
+    for (int j = 0; j < 3; j++) {
+      for (int k = 0; k < 2; k++) {
+        //println(
+        client.subscribe("tripods/" + i + "/tube/" + j + "/side/" + k);
+      }
+    }
+  }
 
 
   spout = new Spout(this);
@@ -91,7 +91,7 @@ void draw() {
 
   selectingSystem();
 
-  drawRaster();
+  //drawRaster();
 
   timerELM();
 
