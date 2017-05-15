@@ -5,7 +5,7 @@ import controlP5.*;
 
 // ----------
 
-String[] EffectsAvailable = {"Glitter", "Explosion"};
+String[] EffectsAvailable = {"Glitter"};
 float[] EffectsWeights =    {5, 1};
 
 int numberEffectsAvailable = EffectsAvailable.length;

@@ -22,6 +22,7 @@ class Tube {
 
   ArrayList<Block> blocks = new ArrayList<Block>();
   ArrayList<GlitterEffect> glittereffect = new ArrayList<GlitterEffect>();
+  ArrayList<DBZ> dbz = new ArrayList<DBZ>();
 
   boolean effectSide0 = false;
   boolean effectSide1 = false;
@@ -73,9 +74,15 @@ class Tube {
       if (glitterEffect.animationFinished()) {
         glittereffect.remove(i);
 
-        effectSide0 = false;
-        effectSide1 = false;
+        //effectSide0 = false;
+        //effectSide1 = false;
       }
+    }
+
+    for (int i = dbz.size() - 1; i >= 0; i--) {
+      DBZ dbzs = dbz.get(i);
+
+      dbzs.update();
     }
   }
 
@@ -97,23 +104,10 @@ class Tube {
       glittereffect.add(new GlitterEffect(this.tripodNumber, this.tubeModulus));
 
       //To indicate that something is running in tube, we don't want to effects overlying eachother, set to false when removing effect
-      effectSide0 = true;
-      effectSide1 = true;
+      //effectSide0 = true;
+      //effectSide1 = true;
     }
 
-    for (int i = glittereffect.size() - 1; i >= 0; i--) {
-      GlitterEffect glitterEffect = glittereffect.get(i);
-
-      glitterEffect.update();
-
-      if (!glitterEffect.timeFinished()) {
-        glitterEffect.generate();
-      }
-
-      if (glitterEffect.animationFinished()) {
-        glittereffect.remove(i);
-      }
-    }
   }
 
   void input_update() {
@@ -143,7 +137,7 @@ class Tube {
     } else if ((effectSide0 == false && effectSide1 == false) && (speed_input < inputAnimationTime+40) && isSynchronously==false) {
       speed_input+= 10;
     } else if ((effectSide0 == false && effectSide1 == false) && speed_input >= inputAnimationTime + 40 && isSynchronously==false) {
-      if (x_input <= standardMovementInput.x_input+1 && x_input >= standardMovementInput.x_input && begin_input == standardMovementInput.begin_input) {
+      if (x_input <= standardMovementInput.x_input+1 && x_input >= standardMovementInput.x_input) {
         speed_input = inputAnimationTime;
         x_input = standardMovementInput.x_input;
         isSynchronously = true;
@@ -165,15 +159,8 @@ class Tube {
     if (isFull == true) {
       fill(255);
       rect(0, 0, tubeLength, rectHeight);
-      int random = int(random(1, 2));
-      if (random == 1) {
-        glittereffect.add(new GlitterEffect(tripodNumber, tubeModulus));
-        isFull = false;
-      }
-      if (random == 2) {
-        glittereffect.add(new GlitterEffect(tripodNumber, tubeModulus));
-        isFull = false;
-      }
+      summon("random");
+      isFull = false;
     }
 
     popStyle();

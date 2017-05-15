@@ -1,3 +1,5 @@
+color[][] colorArrayGlitter = {{#ff0000, #ff2700}, {#e19500, #21ff00}, {#0000ff, #400085}}; 
+
 class GlitterEffect {
 
   int tubeModulus, tripodNumber;
@@ -7,6 +9,8 @@ class GlitterEffect {
   int numberOfGlitters = 75;
 
   private int startTime, livingTime;
+  
+  int randomColorGroup;
 
   GlitterEffect(int tripodNumber, int tubeModulus) {
     this.tubeModulus = tubeModulus;
@@ -16,6 +20,8 @@ class GlitterEffect {
     livingTime = 3000;
 
     println("GlitterEffect created");
+    
+    randomColorGroup = int(random(2.99));
   }
 
   void update() {
@@ -31,7 +37,7 @@ class GlitterEffect {
 
   void generate() {
     while (glitters.size() < numberOfGlitters) {
-      glitters.add(new Glitter(this.tubeModulus, this.tripodNumber, random(tubeLength)));
+      glitters.add(new Glitter(this.tubeModulus, this.tripodNumber, random(tubeLength), randomColorGroup));
     }
   }
 
@@ -67,7 +73,7 @@ class Glitter {
 
   int currentTime = 20;
 
-  Glitter(int tubeModulus, int tripodNumber, float x) {
+  Glitter(int tubeModulus, int tripodNumber, float x, int randomColorGroup) {
     this.tubeModulus = tubeModulus;
     this.tripodNumber = tripodNumber;
 
@@ -77,9 +83,9 @@ class Glitter {
 
     livingTime = int(random(100, 900));
 
-    randomColor = color(random(0, 255), random(0, 255), random(0, 255));
+    randomColor = lerpColor(colorArrayGlitter[randomColorGroup][0], colorArrayGlitter[randomColorGroup][1], random(1));
 
-    fadeInTime = int(random(350, 500));
+    fadeInTime = int(random(350, 500));    
   }
 
   void update() {

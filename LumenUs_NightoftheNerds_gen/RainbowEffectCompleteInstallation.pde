@@ -1,4 +1,4 @@
-color[] colorArray = {#ff0000, #ff2700, #c46606, #21ff00, #00fffa, #0000ff, #fa00ff};
+color[] colorArray = {#ff0000, #ff2700, #e19500, #21ff00, #00fffa, #0000ff, #ff0085, #400085};
 
 class RainBowEffectCompleteInstallation {
 
