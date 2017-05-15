@@ -100,6 +100,20 @@ class Tube {
       effectSide0 = true;
       effectSide1 = true;
     }
+
+    for (int i = glittereffect.size() - 1; i >= 0; i--) {
+      GlitterEffect glitterEffect = glittereffect.get(i);
+
+      glitterEffect.update();
+
+      if (!glitterEffect.timeFinished()) {
+        glitterEffect.generate();
+      }
+
+      if (glitterEffect.animationFinished()) {
+        glittereffect.remove(i);
+      }
+    }
   }
 
   void input_update() {
@@ -151,11 +165,18 @@ class Tube {
     if (isFull == true) {
       fill(255);
       rect(0, 0, tubeLength, rectHeight);
+      int random = int(random(1, 2));
+      if (random == 1) {
+        glittereffect.add(new GlitterEffect(tripodNumber, tubeModulus));
+        isFull = false;
+      }
+      if (random == 2) {
+        glittereffect.add(new GlitterEffect(tripodNumber, tubeModulus));
+        isFull = false;
+      }
     }
 
     popStyle();
     popMatrix();
-
-    //println(speed_input, isSynchronously, x_input);
   }
 }
