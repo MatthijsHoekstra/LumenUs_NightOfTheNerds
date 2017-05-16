@@ -107,12 +107,11 @@ class Tube {
       //effectSide0 = true;
       //effectSide1 = true;
     }
-
   }
 
   void input_update() {
     float intervalue2 = map(speed_input, inputAnimationTime, 0, 0, 1);
-    float intervalue3 = AULib.ease(AULib.EASE_IN_CUBIC, intervalue2);
+    float intervalue3 = AULib.ease(AULib.EASE_OUT_CUBIC, intervalue2);
     width_input = map(intervalue3, 0, 1, rectWidth*4, tubeLength);
 
     float currentTime = map(millis(), startTime, startTime + speed_input, begin_input, end_input);
@@ -153,8 +152,19 @@ class Tube {
     translate(this.tubeModulus * (numLEDsPerTube * rectWidth) + (this.tubeModulus * 20 + 20), this.tripodNumber * 21 + 21);
     pushStyle();
 
-    fill(255);
+    fill(255, 50);
+    rect(x_input - width_input/2, 0, width_input/4, rectHeight);
+    fill(255, 90);
+    rect(x_input - width_input/4, 0, width_input/4, rectHeight);
+
+    fill(255, 255);
     rect(x_input, 0, width_input/4, rectHeight);
+
+    fill(255, 90);
+    rect(x_input + width_input/4, 0, width_input/4, rectHeight);
+    fill(255, 50);
+    rect(x_input + width_input/2, 0, width_input/4, rectHeight);
+
 
     if (isFull == true) {
       fill(255);

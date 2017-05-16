@@ -42,7 +42,7 @@ ControlP5 cp5;
 void setup() {
   size(1600, 300, OPENGL);
 
-  frameRate(80);
+  frameRate(60);
   background(0);
   noStroke();
   noSmooth();
@@ -67,7 +67,8 @@ void setup() {
       }
     }
   }
-
+  
+  client.unsubscribe("tripods/1/tube/0/side/0");
 
   spout = new Spout(this);
 

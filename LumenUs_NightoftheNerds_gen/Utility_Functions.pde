@@ -102,7 +102,7 @@ boolean startTimer = false;
 //14.5 minutes 
 
 
-int durationTimer = 2000000;
+int durationTimer = 900000;
 
 
 int minutes = 0;
@@ -135,7 +135,7 @@ void timerELM() {
     pushStyle();
     fill(255);
     textSize(18);
-    text("Current time timer: " + timerToDisplay, 100, height-200);
+    text("Current time timer: " + timerToDisplay, 100, height-180);
     popStyle();
 
     if (millis() - startTimeTimer > durationTimer - 10000 - 1000 - 1000) {
