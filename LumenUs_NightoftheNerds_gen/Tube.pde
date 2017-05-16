@@ -111,9 +111,10 @@ class Tube {
   }
 
   void input_update() {
-    float intervalue2 = map(speed_input, inputAnimationTime, 0, 0, 1);
-    float intervalue3 = AULib.ease(AULib.EASE_IN_CUBIC, intervalue2);
-    width_input = map(intervalue3, 0, 1, rectWidth*4, tubeLength/2);
+    //float intervalue2 = map(speed_input, inputAnimationTime, 0, 0, 1);
+    //float intervalue3 = AULib.ease(AULib.EASE_IN_CUBIC, intervalue2);
+    //width_input = map(intervalue3, 0, 1, rectWidth*4, tubeLength/2);
+    width_input = rectWidth*2;
 
     float currentTime = map(millis(), startTime, startTime + speed_input/4, begin_input, end_input);
     float intervalue1 = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
