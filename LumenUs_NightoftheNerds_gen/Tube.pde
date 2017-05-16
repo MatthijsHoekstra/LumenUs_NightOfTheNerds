@@ -156,7 +156,7 @@ class Tube {
      fillColor = #ff0085;
     }
 
-    fillColor = #ffffff;
+   // fillColor = #ffffff;
 
     if ((effectSide0 == true || effectSide1 == true) && glittereffect.size() == 0) {
       speed_input -= 40 ;
