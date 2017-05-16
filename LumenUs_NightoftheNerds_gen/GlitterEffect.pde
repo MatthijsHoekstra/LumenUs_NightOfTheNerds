@@ -9,7 +9,7 @@ class GlitterEffect {
   int numberOfGlitters = 75;
 
   private int startTime, livingTime;
-  
+
   int randomColorGroup;
 
   GlitterEffect(int tripodNumber, int tubeModulus) {
@@ -20,8 +20,39 @@ class GlitterEffect {
     livingTime = 3000;
 
     println("GlitterEffect created");
-    
-    randomColorGroup = int(random(2.99));
+
+    if (colorModeBackground == 0) {
+      int random = int(random(1.99));
+
+      if (random == 0) {
+        randomColorGroup = 1;
+      }
+      if (random == 1) {
+        randomColorGroup = 2;
+      }
+    }
+
+    if (colorModeBackground == 1) {
+      int random = int(random(1.99));
+
+      if (random == 0) {
+        randomColorGroup = 0;
+      }
+      if (random == 1) {
+        randomColorGroup = 2;
+      }
+    }
+
+    if (colorModeBackground == 2) {
+      int random = int(random(1.99));
+
+      if (random == 0) {
+        randomColorGroup = 0;
+      }
+      if (random == 1) {
+        randomColorGroup = 1;
+      }
+    }
   }
 
   void update() {
@@ -85,7 +116,7 @@ class Glitter {
 
     randomColor = lerpColor(colorArrayGlitter[randomColorGroup][0], colorArrayGlitter[randomColorGroup][1], random(1));
 
-    fadeInTime = int(random(350, 500));    
+    fadeInTime = int(random(350, 500));
   }
 
   void update() {
