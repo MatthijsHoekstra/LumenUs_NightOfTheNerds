@@ -143,25 +143,25 @@ class Tube {
         isSynchronously = true;
       }
     }
-    
-    if (colorModeBackground == 0){
-     fillColor = colorArrayGlitter[2][1]; 
-    }
-    
-    if (colorModeBackground == 1){
-     fillColor = colorArrayGlitter[0][1]; 
-    }
-    
-    if (colorModeBackground == 2){
-     fillColor = #ff0085;
-    }
 
-   // fillColor = #ffffff;
+
+
+     fillColor = #ffffff;
 
     if ((effectSide0 == true || effectSide1 == true) && glittereffect.size() == 0) {
       speed_input -= 40 ;
       isSynchronously = false;
-      fillColor = #ff0000;
+      if (colorModeBackground == 0) {
+        fillColor = colorArrayGlitter[2][1];
+      }
+
+      if (colorModeBackground == 1) {
+        fillColor = colorArrayGlitter[0][1];
+      }
+
+      if (colorModeBackground == 2) {
+        fillColor = #ff0085;
+      }
     }
 
     pushMatrix();
