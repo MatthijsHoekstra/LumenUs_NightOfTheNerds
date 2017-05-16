@@ -83,7 +83,7 @@ void setup() {
 boolean startBackground = true;
 int colorModeBackground = 0;
 
-int timeToCycle = 60000;
+int timeToCycle = 30000;
 
 int opacityStartBackground = 0;
 
@@ -104,8 +104,8 @@ void draw() {
     if (startBackground) {
       opacityStartBackground ++;
 
-      if (opacityStartBackground >= 255) {
-        opacityStartBackground = 255;
+      if (opacityStartBackground >= 15) {
+        opacityStartBackground = 15;
         startBackground = false;
         startTimeBackground = millis();
       }
@@ -122,6 +122,8 @@ void draw() {
       if (opacityStartBackground <= 0) {
         colorModeBackground ++;
         startBackground = true;
+        println("next background" + colorModeBackground);
+        startTimeBackground = millis();
       }
     }
 
@@ -131,8 +133,8 @@ void draw() {
     if (startBackground) {
       opacityStartBackground ++;
 
-      if (opacityStartBackground >= 255) {
-        opacityStartBackground = 255;
+      if (opacityStartBackground >= 15) {
+        opacityStartBackground = 15;
         startBackground = false;
         startTimeBackground = millis();
       }
@@ -149,6 +151,7 @@ void draw() {
       if (opacityStartBackground <= 0) {
         colorModeBackground ++;
         startBackground = true;
+        startTimeBackground = millis();
       }
     }
 
@@ -158,8 +161,8 @@ void draw() {
     if (startBackground) {
       opacityStartBackground ++;
 
-      if (opacityStartBackground >= 255) {
-        opacityStartBackground = 255;
+      if (opacityStartBackground >= 15) {
+        opacityStartBackground = 15;
         startBackground = false;
         startTimeBackground = millis();
       }
@@ -176,6 +179,7 @@ void draw() {
       if (opacityStartBackground <= 0) {
         colorModeBackground = 0;
         startBackground = true;
+        startTimeBackground = millis();
       }
     }
 

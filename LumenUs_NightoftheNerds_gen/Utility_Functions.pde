@@ -102,7 +102,7 @@ boolean startTimer = false;
 //14.5 minutes 
 
 
-int durationTimer = 900000;
+int durationTimer = 890000;
 
 
 int minutes = 0;
