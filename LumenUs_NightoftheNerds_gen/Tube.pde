@@ -10,13 +10,14 @@ class Tube {
   private int tubeModulus;
   private int tripodNumber;
   private int startTime;
+  private int fillColor; 
 
   float x_input;
   float width_input;
   int speed_input;
   int begin_input = 0;
   int end_input = 1;
-  int inputAnimationTime = 3000;
+  int inputAnimationTime = 5000;
   boolean isFull = false;
   boolean isSynchronously = true;
 
@@ -111,12 +112,12 @@ class Tube {
 
   void input_update() {
     float intervalue2 = map(speed_input, inputAnimationTime, 0, 0, 1);
-    float intervalue3 = AULib.ease(AULib.EASE_OUT_CUBIC, intervalue2);
-    width_input = map(intervalue3, 0, 1, rectWidth*4, tubeLength);
+    float intervalue3 = AULib.ease(AULib.EASE_IN_CUBIC, intervalue2);
+    width_input = map(intervalue3, 0, 1, rectWidth*4, tubeLength/2);
 
-    float currentTime = map(millis(), startTime, startTime + speed_input, begin_input, end_input);
+    float currentTime = map(millis(), startTime, startTime + speed_input/4, begin_input, end_input);
     float intervalue1 = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
-    x_input = map(intervalue1, 0, 1, 0, tubeLength-width_input/4);
+    x_input = map(intervalue1, 0, 1, 0, tubeLength-width_input/2);
 
     if (intervalue1 >= 1) {
       startTime = millis();
@@ -142,27 +143,30 @@ class Tube {
         isSynchronously = true;
       }
     }
+    
+    fillColor = #ffffff;
 
     if (effectSide0 == true || effectSide1 == true) {
-      speed_input -= 20 ;
+      speed_input -= 40 ;
       isSynchronously = false;
+      fillColor = #ff0000;
     }
 
     pushMatrix();
     translate(this.tubeModulus * (numLEDsPerTube * rectWidth) + (this.tubeModulus * 20 + 20), this.tripodNumber * 21 + 21);
     pushStyle();
 
-    fill(255, 50);
+    fill(fillColor, 50);
     rect(x_input - width_input/2, 0, width_input/4, rectHeight);
-    fill(255, 90);
+    fill(fillColor, 90);
     rect(x_input - width_input/4, 0, width_input/4, rectHeight);
 
-    fill(255, 255);
+    fill(fillColor, 255);
     rect(x_input, 0, width_input/4, rectHeight);
 
-    fill(255, 90);
+    fill(fillColor, 90);
     rect(x_input + width_input/4, 0, width_input/4, rectHeight);
-    fill(255, 50);
+    fill(fillColor, 50);
     rect(x_input + width_input/2, 0, width_input/4, rectHeight);
 
 
