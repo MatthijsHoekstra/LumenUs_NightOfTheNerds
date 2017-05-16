@@ -17,7 +17,7 @@ class Tube {
   int speed_input;
   int begin_input = 0;
   int end_input = 1;
-  int inputAnimationTime = 5000;
+  int inputAnimationTime = 10000;
   boolean isFull = false;
   boolean isSynchronously = true;
 
@@ -143,10 +143,10 @@ class Tube {
         isSynchronously = true;
       }
     }
-    
+
     fillColor = #ffffff;
 
-    if (effectSide0 == true || effectSide1 == true) {
+    if ((effectSide0 == true || effectSide1 == true) && glittereffect.size() == 0) {
       speed_input -= 40 ;
       isSynchronously = false;
       fillColor = #ff0000;
@@ -156,22 +156,25 @@ class Tube {
     translate(this.tubeModulus * (numLEDsPerTube * rectWidth) + (this.tubeModulus * 20 + 20), this.tripodNumber * 21 + 21);
     pushStyle();
 
-    fill(fillColor, 50);
-    rect(x_input - width_input/2, 0, width_input/4, rectHeight);
-    fill(fillColor, 90);
-    rect(x_input - width_input/4, 0, width_input/4, rectHeight);
+    if (glittereffect.size() == 0) {
 
-    fill(fillColor, 255);
-    rect(x_input, 0, width_input/4, rectHeight);
+      fill(fillColor, 50);
+      rect(x_input - width_input/2, 0, width_input/4, rectHeight);
+      fill(fillColor, 90);
+      rect(x_input - width_input/4, 0, width_input/4, rectHeight);
 
-    fill(fillColor, 90);
-    rect(x_input + width_input/4, 0, width_input/4, rectHeight);
-    fill(fillColor, 50);
-    rect(x_input + width_input/2, 0, width_input/4, rectHeight);
+      fill(fillColor, 255);
+      rect(x_input, 0, width_input/4, rectHeight);
+
+      fill(fillColor, 90);
+      rect(x_input + width_input/4, 0, width_input/4, rectHeight);
+      fill(fillColor, 50);
+      rect(x_input + width_input/2, 0, width_input/4, rectHeight);
+    }
 
 
     if (isFull == true) {
-      fill(255);
+      fill(255, 0, 0);
       rect(0, 0, tubeLength, rectHeight);
       summon("random");
       isFull = false;

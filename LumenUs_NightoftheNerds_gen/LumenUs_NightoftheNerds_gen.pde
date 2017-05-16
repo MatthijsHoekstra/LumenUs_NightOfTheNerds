@@ -67,7 +67,7 @@ void setup() {
       }
     }
   }
-  
+
   client.unsubscribe("tripods/1/tube/0/side/0");
 
   spout = new Spout(this);
@@ -80,9 +80,107 @@ void setup() {
   }
 }
 
+boolean startBackground = true;
+int colorModeBackground = 0;
+
+int timeToCycle = 60000;
+
+int opacityStartBackground = 0;
+
+int startTimeBackground;
+
+color backgroundColor;
+
 void draw() {
 
   background(0);
+  pushStyle();
+  fill(backgroundColor, opacityStartBackground);
+  rect(0, 0, width, height);
+
+
+  switch(colorModeBackground) {
+  case 0:
+    if (startBackground) {
+      opacityStartBackground ++;
+
+      if (opacityStartBackground >= 255) {
+        opacityStartBackground = 255;
+        startBackground = false;
+        startTimeBackground = millis();
+      }
+    }
+
+    float currentTime = map(millis(), startTimeBackground, startTimeBackground + timeToCycle, 0, 1);
+    float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
+
+    backgroundColor = lerpColor(colorArrayGlitter[colorModeBackground][0], colorArrayGlitter[colorModeBackground][1], interValue);
+
+    if (millis() > (startTimeBackground + timeToCycle)) {
+      opacityStartBackground --;
+
+      if (opacityStartBackground <= 0) {
+        colorModeBackground ++;
+        startBackground = true;
+      }
+    }
+
+    break;
+
+  case 1:
+    if (startBackground) {
+      opacityStartBackground ++;
+
+      if (opacityStartBackground >= 255) {
+        opacityStartBackground = 255;
+        startBackground = false;
+        startTimeBackground = millis();
+      }
+    }
+
+    float currentTime1 = map(millis(), startTimeBackground, startTimeBackground + timeToCycle, 0, 1);
+    float interValue1 = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime1);
+
+    backgroundColor = lerpColor(colorArrayGlitter[colorModeBackground][0], colorArrayGlitter[colorModeBackground][1], interValue1);
+
+    if (millis() > (startTimeBackground + timeToCycle)) {
+      opacityStartBackground --;
+
+      if (opacityStartBackground <= 0) {
+        colorModeBackground ++;
+        startBackground = true;
+      }
+    }
+
+    break;
+
+  case 2:
+    if (startBackground) {
+      opacityStartBackground ++;
+
+      if (opacityStartBackground >= 255) {
+        opacityStartBackground = 255;
+        startBackground = false;
+        startTimeBackground = millis();
+      }
+    }
+
+    float currentTime2 = map(millis(), startTimeBackground, startTimeBackground + timeToCycle, 0, 1);
+    float interValue2 = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime2);
+
+    backgroundColor = lerpColor(colorArrayGlitter[colorModeBackground][0], colorArrayGlitter[colorModeBackground][1], interValue2);
+
+    if (millis() > (startTimeBackground + timeToCycle)) {
+      opacityStartBackground --;
+
+      if (opacityStartBackground <= 0) {
+        colorModeBackground = 0;
+        startBackground = true;
+      }
+    }
+
+    break;
+  }
 
   for (int i=0; i<numTubes; i++) {
     tubes[i].update();
