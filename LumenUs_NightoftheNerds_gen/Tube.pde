@@ -143,6 +143,18 @@ class Tube {
         isSynchronously = true;
       }
     }
+    
+    if (colorModeBackground == 0){
+     fillColor = colorArrayGlitter[2][1]; 
+    }
+    
+    if (colorModeBackground == 1){
+     fillColor = colorArrayGlitter[0][1]; 
+    }
+    
+    if (colorModeBackground == 2){
+     fillColor = #ff0085;
+    }
 
     fillColor = #ffffff;
 
